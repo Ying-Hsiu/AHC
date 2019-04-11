@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-2.2.4.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<style>
+    body{
+        text-align: center;
+    }
+    .word{
+        display: inline-block;
+        cursor: pointer;
+    }
+    .wordOption{
+        position: absolute;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #FFF;
+        display: none;
+    }
+    .active .wordOption{
+        display: block;
+    }
+    span{
+        color:brown;
+    }
+    #result{
+        padding: 5px 10px;
+    }
+</style>
+<body>
+    <p id="question"></p>
+    <button type="button" class="btn btn-info" name="questionBtn">隨便來一題</button>
+    <button type="button" class="btn btn-success" name="resultBtn">產生結果</button>
+    <p id="result"></p>
+    
+    
+</body>
+<script>
+    var ahc = new AHC();
+    window.onload = function(){
+
+        getQuestion();
+
+        $(document).on("click","[name='questionBtn']",function(){
+            getQuestion();
+        })
+        $(document).on("click","[name='resultBtn']",function(){
+            genResult();
+        })
+
+        $(document).on("click",".word",function(event){
+            var el = event.currentTarget;
+            $(".word.active").toggleClass("active");
+            $(el).toggleClass("active");
+        })
+    }
+
+    function getQuestion(){
+        document.querySelector("#question").innerHTML = ahc.getQuestion();
+    }
+
+    function genResult(){
+        document.querySelector("#result").innerHTML = ahc.getResult();
+    }
+
+
+</script>
+</html>
