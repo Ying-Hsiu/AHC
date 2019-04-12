@@ -4,11 +4,25 @@ var AHC = /** @class */ (function () {
         this.selectTpl =
             "\n        <div class=\"word\">\n            <select id=\"inputState\" class=\"form-control\">\n                <option value=\"name\"> \u4EBA\u540D</option>\n                <option value=\"location\"> \u5730\u9EDE</option>\n                <option value=\"action\"> \u52D5\u4F5C</option>\n                <option value=\"object\"> \u9053\u5177</option>\n            </select>\n        </div>\n        ";
     }
+    AHC.prototype.init = function () {
+        this.selectQuestionTpl = "";
+        for (var i = 0; i < this.questions.length; i++) {
+            this.selectQuestionTpl += "<option value=\"" + i + "\">" + this.questions[i].replace(/\$value/g, "____") + "</option>";
+        }
+        document.querySelector("#selectQuestion").innerHTML = this.selectQuestionTpl;
+        this.getQuestion();
+    };
+    AHC.prototype.setQuestion = function () {
+        var question = "";
+        this.question = this.questions[$("#selectQuestion").val()];
+        question = this.question.replace(/\$value/g, this.selectTpl);
+        document.querySelector("#question").innerHTML = question;
+    };
     AHC.prototype.getQuestion = function () {
         var question = "";
         this.question = this.questions[Math.random() * this.questions.length | 0];
         question = this.question.replace(/\$value/g, this.selectTpl);
-        return question;
+        document.querySelector("#question").innerHTML = question;
     };
     AHC.prototype.getResult = function () {
         var tmpWord = "";
@@ -21,12 +35,12 @@ var AHC = /** @class */ (function () {
             tmpWord = "<span>" + this.words[type][Math.random() * this.words[type].length | 0] + "</span>";
             this.result = this.result.replace(/\$value/i, tmpWord);
         }
-        return this.result;
+        document.querySelector("#result").innerHTML = this.result;
     };
     AHC.prototype.setData = function () {
         this.questions =
             [
-                "俏如來從懷中取出了$vlue。",
+                "俏如來從懷中取出了$value。",
                 "默蒼離：安靜，吾在$value。",
                 "$value醒醒吧！你根本沒有$value。",
                 "江湖在走，$value要有。",

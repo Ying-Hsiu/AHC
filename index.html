@@ -32,13 +32,28 @@
         color:brown;
     }
     #result{
-        padding: 5px 10px;
+        padding: 10px;
+    }
+    #selectQuestion{
+        visibility: hidden;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    #selectQuestion.active{
+        visibility: visible;
     }
 </style>
 <body>
-    <p id="question"></p>
-    <button type="button" class="btn btn-info" name="questionBtn">隨便來一題</button>
+    <div>
+        <select id="selectQuestion" class="form-control"></select>
+        <br>
+        <button type="button" class="btn btn-info" name="questionBtn">隨便來一題</button>
+        <button type="button" class="btn btn-secondary" name="selectBtn">我要自己選</button>
+    </div>
+    <br>
+    <p id="question">我是題目！</p>
     <button type="button" class="btn btn-success" name="resultBtn">產生結果</button>
+    
     <p id="result"></p>
     
     
@@ -46,14 +61,20 @@
 <script>
     var ahc = new AHC();
     window.onload = function(){
-
-        getQuestion();
+        ahc.init();
 
         $(document).on("click","[name='questionBtn']",function(){
-            getQuestion();
+            ahc.getQuestion();
+        })
+        $(document).on("click","[name='selectBtn']",function(){
+            $("#selectQuestion").toggleClass("active");
         })
         $(document).on("click","[name='resultBtn']",function(){
-            genResult();
+            ahc.getResult();
+        })
+
+        $(document).on("change","#selectQuestion",function(){
+            ahc.setQuestion();
         })
 
         $(document).on("click",".word",function(event){
@@ -62,15 +83,6 @@
             $(el).toggleClass("active");
         })
     }
-
-    function getQuestion(){
-        document.querySelector("#question").innerHTML = ahc.getQuestion();
-    }
-
-    function genResult(){
-        document.querySelector("#result").innerHTML = ahc.getResult();
-    }
-
 
 </script>
 </html>
